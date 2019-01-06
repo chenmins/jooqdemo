@@ -1,6 +1,12 @@
 package com.example.jooqdemo.config;
 
 import com.alibaba.druid.pool.DruidDataSource;
+import org.jooq.ConnectionProvider;
+import org.jooq.DSLContext;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
+import org.jooq.impl.DataSourceConnectionProvider;
+import org.jooq.impl.DefaultConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

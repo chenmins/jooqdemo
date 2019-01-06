@@ -3,15 +3,29 @@ package com.example.jooqdemo.controller;
 import com.example.jooqdemo.model.ResponseData;
 import com.generator.tables.daos.UsersDao;
 import com.generator.tables.pojos.Users;
+import org.jooq.ConnectionProvider;
 import org.jooq.DSLContext;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.jooq.SQLDialect;
+import org.jooq.impl.DSL;
+import org.jooq.impl.DataSourceConnectionProvider;
+import org.jooq.impl.DefaultConfiguration;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.web.bind.annotation.*;
+
+import javax.sql.DataSource;
 
 @RestController
 public class TestController {
 
-    @Autowired
-    DSLContext dslContext;
+    private DSLContext dslContext;
+
+    public TestController(@Qualifier("nativeDataSource") DataSource dataSource){
+        ConnectionProvider connectionProvider =  new DataSourceConnectionProvider(dataSource);
+        org.jooq.Configuration configuration = new DefaultConfiguration()
+                .set(connectionProvider)
+                .set(SQLDialect.POSTGRES);
+        dslContext = DSL.using(configuration);
+    }
 
     com.generator.tables.Users u = com.generator.tables.Users.USERS.as("u");
     @RequestMapping(method = RequestMethod.GET,value = "/delete/{id}")
